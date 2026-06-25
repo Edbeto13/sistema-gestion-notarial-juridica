@@ -1,0 +1,66 @@
+Actividad 1. Sistema de Gestión Notarial y Jurídica
+Problemática
+Una notaría requiere digitalizar:
+
+Expedientes.
+Actas.
+Contratos.
+Clientes.
+Firmas electrónicas.
+Actualmente:
+
+Hay retraso en búsquedas.
+Riesgo de extravío documental.
+Falta de trazabilidad.
+Requerimientos
+Gestión documental.
+Versionado.
+Auditoría.
+Firma electrónica.
+Seguimiento de trámites.
+Temas relevantes
+Integridad y seguridad.
+XML.
+Procedimientos almacenados.
+Control de acceso.
+Respaldo documental.
+
+Actividad 2. Levantamiento de requerimientos
+El equipo deberá identificar qué información necesita almacenar el sistema.
+
+Entregable:
+
+Requerimientos funcionales.
+Requerimientos no funcionales.
+Usuarios del sistema.
+Reglas de negocio.
+Procesos principales.
+Actividad 3. Identificación de entidades
+A partir de la problemática, deberán detectar las entidades principales.
+
+Entregable:
+
+Lista de entidades.
+Descripción de cada entidad.
+Atributos principales.
+Posibles identificadores o claves.
+
+Actividad 4. Modelo Entidad-Relación inicial
+El equipo elaborará el primer diagrama E-R, considerando entidades, atributos, relaciones y cardinalidades. El modelo E-R se utiliza en el proceso de diseño de bases de datos. 
+
+Entregable:
+
+Diagrama E-R.
+Cardinalidades.
+Relaciones.
+Justificación del modelo.
+Segundo parcial: Modelo relacional y normalización
+Actividad 5. Conversión del modelo E-R al modelo relacional
+Convertir el diagrama E-R en tablas relacionales.
+
+Entregable:
+
+Tablas propuestas.
+Claves primarias.
+Claves foráneas.
+Relaciones entre tablas.

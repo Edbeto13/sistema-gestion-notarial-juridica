@@ -1,0 +1,100 @@
+erDiagram
+    Cliente ||--o{ Expediente : solicita
+    Expediente ||--o{ Tramite : contiene
+    TipoTramite ||--o{ Tramite : clasifica
+    Tramite ||--o{ Documento : genera
+    Documento ||--o{ VersionDocumento : versiona
+    Documento ||--o| Acta : especializa
+    Documento ||--o| Contrato : especializa
+    VersionDocumento ||--o{ FirmaElectronica : recibe
+    Usuario ||--o{ FirmaElectronica : autoriza
+    Usuario ||--o{ Auditoria : registra
+    Usuario }o--o{ Rol : asigna
+    Expediente ||--o{ Respaldo : respalda
+
+    Cliente {
+        int id_cliente PK
+        string tipo_persona
+        string nombre_razon
+        string identificacion UK
+        string correo
+        string telefono
+        boolean activo
+    }
+    Expediente {
+        int id_expediente PK
+        string folio_expediente UK
+        int id_cliente FK
+        datetime fecha_apertura
+        string estado
+    }
+    TipoTramite {
+        int id_tipo_tramite PK
+        string codigo UK
+        string nombre
+    }
+    Tramite {
+        int id_tramite PK
+        int id_expediente FK
+        int id_tipo_tramite FK
+        string estado
+        datetime fecha_inicio
+        datetime fecha_cierre
+    }
+    Documento {
+        int id_documento PK
+        int id_tramite FK
+        string tipo_documento
+        string titulo
+        string ruta_archivo
+    }
+    VersionDocumento {
+        int id_version PK
+        int id_documento FK
+        int numero_version
+        string hash_documento
+        boolean firmado
+    }
+    Acta {
+        int id_documento PK_FK
+        string numero_acta UK
+        string tipo_acta
+        string lugar_celebracion
+    }
+    Contrato {
+        int id_documento PK_FK
+        decimal monto
+        string moneda
+        date vigencia_inicio
+        date vigencia_fin
+    }
+    Usuario {
+        int id_usuario PK
+        string login_usuario UK
+        string certificado_serial
+        boolean certificado_vigente
+    }
+    Rol {
+        int id_rol PK
+        string nombre_rol UK
+    }
+    FirmaElectronica {
+        int id_firma PK
+        int id_version FK
+        int id_usuario FK
+        string certificado_serial
+    }
+    Auditoria {
+        bigint id_auditoria PK
+        int id_usuario FK
+        string tabla_afectada
+        string operacion
+        xml detalle_xml
+        datetime fecha_evento
+    }
+    Respaldo {
+        int id_respaldo PK
+        int id_expediente FK
+        string ruta_respaldo
+        string checksum_archivo
+    }

@@ -1,0 +1,20 @@
+flowchart TD
+    A[Cliente solicita servicio] --> B[Registro o validacion de cliente]
+    B --> C[sp_AbrirExpediente]
+    C --> D[Creacion de tramite]
+    D --> E[Elaboracion o carga de documento]
+    E --> F{Tipo de documento}
+    F -->|Acta| G[Registro en tabla Acta]
+    F -->|Contrato| H[Registro en tabla Contrato]
+    F -->|Anexo| I[Registro en Documento]
+    G --> J[sp_RegistrarVersionDocumento]
+    H --> J
+    I --> J
+    J --> K[Revision interna]
+    K --> L{Version aprobada}
+    L -->|No| J
+    L -->|Si| M[sp_AplicarFirmaElectronica]
+    M --> N[sp_CambiarEstadoTramite]
+    N --> O[sp_EjecutarRespaldoExpediente]
+    O --> P[Archivo y cierre de expediente]
+    P --> Q[Consulta y auditoria via Auditoria XML]

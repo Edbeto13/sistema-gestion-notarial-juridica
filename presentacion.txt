@@ -1,0 +1,199 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usepackage{fontspec}
+\usepackage[spanish, bidi=basic, provide=*]{babel}
+
+% Configuracion de idioma y tipografia de la familia Noto
+\babelprovide[import, onchar=ids fonts]{spanish}
+\babelprovide[import, onchar=ids fonts]{english}
+\babelfont{rm}{Noto Sans}
+
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{amsmath}
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=black}
+
+% Paleta de colores corporativa (Deep Tech Blue, Electric Teal, Charcoal Dark)
+\definecolor{primary}{HTML}{0E2338}
+\definecolor{accent}{HTML}{0A8F94}
+\definecolor{neutral}{HTML}{1A1A1E}
+
+\setbeamercolor{title}{fg=primary}
+\setbeamercolor{frametitle}{fg=primary}
+\setbeamercolor{structure}{fg=accent}
+
+\newtcolorbox{concepto}{
+  colback=accent!5!white,
+  colframe=primary,
+  arc=3pt,
+  boxrule=1.0pt,
+  left=8pt,
+  right=8pt,
+  top=6pt,
+  bottom=6pt
+}
+
+\title{\Huge\bfseries\color{primary} El Motor Autonomo\\ \large Transformacion de la Administracion de Datos con IA y Machine Learning}
+\author{\textbf{Comite de Estrategia Tecnologica e Ingenieria de Datos}}
+\date{\small Analisis de Frontera Tecnologica --- Ciclo Operativo 2025--2026}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Objetivo y Alcance}
+\small
+Analizar como la inteligencia artificial y el \textit{machine learning} estan transformando la administracion de datos en DBMS modernos. El analisis se enfoca en integrar modelos de IA en el motor y evolucionar hacia arquitecturas autonomas.
+\vspace{0.25cm}
+
+\textbf{Microconclusion:} La automatizacion de la capa de datos ya no es opcional; es un estandar arquitectonico.
+\end{frame}
+
+\begin{frame}{Agenda}
+\small
+\begin{itemize}
+  \item Bases de datos inteligentes.
+  \item Optimizacion automatica (auto-tuning).
+  \item Indexacion inteligente.
+  \item Prediccion de consultas.
+  \item Data mining integrado.
+  \item Sistemas expertos.
+\end{itemize}
+\vspace{0.2cm}
+Productos: estado del arte, casos reales, arquitectura propuesta, perspectiva futura.
+\end{frame}
+
+\begin{frame}{Evolucion hacia la autonomia operativa}
+\small
+\begin{itemize}
+  \item \textbf{Pasado:} sistemas reactivos y ajustes manuales.
+  \item \textbf{Transicion:} self-tuning y computacion autonomica (2017).
+  \item \textbf{Presente:} plataformas proactivas con IA en el kernel.
+  \item \textbf{Futuro:} arquitecturas AI-native con autogestion y autoproteccion.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Concepto central: plataformas proactivas}
+\small
+\begin{concepto}
+Integracion de IA y ML dentro del motor de almacenamiento para automatizar optimizacion, seguridad y analisis en tiempo real.
+\end{concepto}
+\vspace{0.2cm}
+\begin{itemize}
+  \item Autogestion (self-driving): analisis continuo de telemetria.
+  \item Autoreparacion (self-repairing): mitigacion preventiva de fallas.
+  \item Autoproteccion (self-securing): parcheo autonomo y defensa de datos.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pilar 1: Optimizacion automatica (Auto-Tuning)}
+\small
+\begin{itemize}
+  \item Observar: telemetria multidimensional.
+  \item Predecir: modelos que simulan impacto en caliente.
+  \item Ajustar: parametros, memoria, CPU y planes de ejecucion.
+\end{itemize}
+\vspace{0.2cm}
+\textbf{Contexto tecnico:} optimizacion como problema no lineal de alta dimensionalidad.
+\end{frame}
+
+\begin{frame}{Pilar 2: Indexacion inteligente (Learned Indexes)}
+\small
+\begin{itemize}
+  \item Sustituye estructuras rigidas por modelos predictivos continuos.
+  \item Aproxima la CDF de los datos en disco.
+  \item Reduce espacio y mantenimiento en cargas de escritura.
+  \item Indexacion adaptativa segun el workload real.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pilar 3: Prediccion de consultas (Workload Forecasting)}
+\small
+\begin{itemize}
+  \item Anticipa estacionalidad y picos de demanda.
+  \item Clustering de queries por similitud estructural.
+  \item LSTM y Transformers para pronosticos.
+  \item Resultado: precalentamiento de caches y escalado preventivo.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pilar 4: Data Mining integrado (In-Database ML)}
+\small
+\begin{itemize}
+  \item Problema ETL: latencia, duplicacion y riesgo.
+  \item Solucion zero-ETL: inferencia dentro del DBMS.
+  \item Capacidades: regresion, clasificacion, clustering y anomalias.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pilares 5 y 6: sistemas expertos y razonamiento}
+\small
+\begin{itemize}
+  \item Orquestan reglas de conocimiento con modelos ML.
+  \item Diagnostico explicable de regresiones complejas.
+  \item Base para IA explicable dentro de DBMS.
+\end{itemize}
+\end{frame}
+
+\section{Productos}
+
+\begin{frame}{Estado del arte}
+\small
+\begin{concepto}
+La convergencia entre DBMS, IA, automatizacion y cloud inteligente impulsa sistemas autonomos y AI-native.
+\end{concepto}
+\end{frame}
+
+\begin{frame}{Casos reales}
+\small
+\begin{concepto}
+Adopcion en banca, e-commerce y telecom con mejoras en latencia, resiliencia y costo operativo.
+\end{concepto}
+\end{frame}
+
+\begin{frame}{Arquitectura propuesta (AI-native)}
+\small
+\begin{itemize}
+  \item Capa 1: almacenamiento y kernel fisico.
+  \item Capa 2: observabilidad en streaming.
+  \item Capa 3: plano de control inteligente con lazo cerrado.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Sinergia hardware: CPU-GPU co-scheduling}
+\small
+\begin{itemize}
+  \item Evita el overhead de transferencia en inferencias.
+  \item Usa memoria HBM y GPU para paralelismo.
+  \item Latencia cercana a cero en inferencias concurrentes.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Comparativo: DBMS tradicional vs motor autonomo}
+\small
+\begin{tabular}{p{0.38\textwidth} p{0.58\textwidth}}
+\textbf{Criterio} & \textbf{Motor autonomo} \\
+Mantenimiento & Lazo continuo, autogestionado. \\
+Indices & Indices aprendidos y vectoriales. \\
+Respuesta a carga & Prediccion y auto-escalado. \\
+Capacidad analitica & In-database ML, zero-ETL. \\
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Perspectiva futura}
+\small
+\begin{itemize}
+  \item DBMS como motores cognitivos explicables.
+  \item Etica y privacidad integradas en el ciclo de vida del dato.
+  \item Convergencia de IA, datos y gobernanza.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Cierre}
+\small
+La administracion de datos evoluciona hacia plataformas autonomas que aprenden, razonan y se optimizan de forma continua.
+\end{frame}
+
+\end{document}

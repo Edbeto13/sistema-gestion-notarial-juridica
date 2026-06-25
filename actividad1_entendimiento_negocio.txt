@@ -1,0 +1,213 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2cm, right=2cm]{geometry}
+
+\usepackage{fontspec}
+\usepackage[spanish, bidi=basic, provide=*]{babel}
+\babelprovide[import, onchar=ids fonts]{spanish}
+\babelprovide[import, onchar=ids fonts]{english}
+\babelfont{rm}{Noto Sans}
+
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{ragged2e}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+
+\definecolor{primary}{HTML}{0E2338}
+\definecolor{accent}{HTML}{0A8F94}
+\definecolor{neutral}{HTML}{1A1A1E}
+
+\usepackage[colorlinks=true, linkcolor=primary, urlcolor=accent]{hyperref}
+
+\newcolumntype{L}{>{\RaggedRight\arraybackslash}X}
+
+\newtcolorbox{hallazgo}{
+  colback=accent!5!white,
+  colframe=primary,
+  arc=3pt,
+  boxrule=1.0pt,
+  left=8pt,
+  right=8pt,
+  top=6pt,
+  bottom=6pt
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\color{neutral}\small Sistema Notarial y Juridico}
+\fancyhead[R]{\color{neutral}\small Actividad 1 --- Entendimiento del negocio}
+\fancyfoot[C]{\thepage}
+
+\titleformat{\section}{\color{primary}\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\color{accent}\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+\title{\Huge\bfseries\color{primary} Entendimiento del Negocio\\ \large Sistema de Gestion Notarial y Juridica}
+\author{\textbf{Equipo de Analisis de Datos}}
+\date{\small Actividad 1 --- Ciclo 2025--2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Este documento desarrolla el primer paso del proyecto: comprender el contexto operativo de una notaria, identificar el problema que motiva la digitalizacion y delimitar el alcance del sistema propuesto. A partir del enunciado de la Actividad 1 se analiza la situacion actual, los actores involucrados, los objetos de negocio criticos y las causas raiz de los dolores operativos (retrasos, extravio y falta de trazabilidad).
+\end{abstract}
+
+\section{Contexto del negocio}
+
+Una \textbf{notaria} es una institucion de fe publica encargada de formalizar actos juridicos mediante instrumentos notariales. Su operacion diaria implica atender clientes, abrir expedientes por cada solicitud, ejecutar tramites especificos (escrituras, poderes, actas de comparecencia, contratos mercantiles o civiles), elaborar y revisar documentos, aplicar la firma del notario y archivar el expediente con respaldo legal.
+
+El negocio se caracteriza por:
+
+\begin{itemize}
+  \item \textbf{Alta responsabilidad legal:} cada documento tiene valor probatorio y debe conservarse de forma intachable.
+  \item \textbf{Ciclo de vida largo:} un expediente puede permanecer abierto semanas o meses hasta su cierre.
+  \item \textbf{Multiples actores:} notario, secretarios, clientes y, en algunos casos, auditores o autoridades.
+  \item \textbf{Documentos heterogeneos:} actas, contratos, anexos, identificaciones y comprobantes conviven en un mismo tramite.
+  \item \textbf{Exigencia de trazabilidad:} toda modificacion, firma o cambio de estado debe poder reconstruirse en el tiempo.
+\end{itemize}
+
+En el escenario planteado, la notaria opera con procesos mayormente manuales o con herramientas aisladas (archivos fisicos, carpetas compartidas, hojas de calculo). Esto genera friccion entre la exigencia normativa del oficio notarial y la capacidad real de controlar la informacion.
+
+\section{Actores y responsabilidades}
+
+\begin{tabularx}{\textwidth}{|l|L|}
+\hline
+\textbf{Actor} & \textbf{Rol en el negocio} \\ \hline
+Cliente & Solicita servicios notariales; aporta datos, documentos de identidad y firmas. \\ \hline
+Secretario / auxiliar & Registra clientes, abre expedientes, captura documentos y da seguimiento a tramites. \\ \hline
+Notario & Revisa instrumentos, autoriza actos y aplica firma electronica o autografa con validez legal. \\ \hline
+Administrador & Gestiona usuarios, permisos, catalogos y politicas de respaldo. \\ \hline
+Auditor / autoridad & Consulta el historial de operaciones sin alterar registros. \\ \hline
+\end{tabularx}
+
+La digitalizacion debe respetar la cadena de responsabilidad: quien captura no siempre puede firmar, y quien firma no debe modificar versiones ya autorizadas.
+
+\section{Objetos de negocio a digitalizar}
+
+El enunciado identifica cinco objetos centrales que el sistema debe incorporar:
+
+\begin{enumerate}
+  \item \textbf{Expedientes:} contenedores logicos que agrupan todos los tramites de un cliente para un asunto determinado (por ejemplo, compraventa de inmueble).
+  \item \textbf{Actas:} constancias notariales de hechos o comparecencias, con numero de acta, tipo y lugar de celebracion.
+  \item \textbf{Contratos:} instrumentos con montos, moneda y vigencia; pueden ser borradores hasta su firma definitiva.
+  \item \textbf{Clientes:} personas fisicas o morales identificadas de forma unica (CURP, RFC u otro documento).
+  \item \textbf{Firmas electronicas:} evidencia criptografica que vincula al notario, un certificado vigente y el contenido exacto del documento firmado.
+\end{enumerate}
+
+Estos objetos no operan de forma aislada: un expediente contiene tramites; cada tramite genera documentos; cada documento evoluciona en versiones; las versiones pueden recibir firmas; y todo el ciclo debe quedar registrado para auditoria y respaldo.
+
+\section{Problematica: situacion actual (AS-IS)}
+
+\subsection{Sintomas reportados}
+
+El enunciado describe tres dolores operativos principales:
+
+\begin{hallazgo}
+\textbf{Retraso en busquedas.} Localizar un expediente, contrato o acta requiere revision manual en archivos fisicos o carpetas sin indice unificado. Las consultas por folio, cliente o fecha son lentas e inconsistentes.
+\end{hallazgo}
+
+\begin{hallazgo}
+\textbf{Riesgo de extravio documental.} La dispersion de copias (impresas, digitales en distintas rutas, correos adjuntos) incrementa la probabilidad de perder un documento o trabajar con una version incorrecta.
+\end{hallazgo}
+
+\begin{hallazgo}
+\textbf{Falta de trazabilidad.} No existe un registro confiable de quien modifico un documento, cuando se firmo, que version era la vigente ni que respaldos se generaron. Ante una revision legal o una queja del cliente, reconstruir el historial es costoso o imposible.
+\end{hallazgo}
+
+\subsection{Causas raiz}
+
+\begin{tabularx}{\textwidth}{|l|L|}
+\hline
+\textbf{Causa} & \textbf{Efecto en la operacion} \\ \hline
+Informacion fragmentada & Duplicidad de datos y dificultad para responder preguntas simples (``cual es la ultima version firmada?''). \\ \hline
+Ausencia de versionado formal & Se sobrescriben archivos sin conservar el historial de cambios. \\ \hline
+Procesos no estandarizados & Cada secretario organiza expedientes de forma distinta. \\ \hline
+Sin bitacora de auditoria & No hay evidencia estructurada de operaciones criticas. \\ \hline
+Firma desacoplada del contenido & Riesgo de firmar un documento distinto al revisado. \\ \hline
+Respaldos no vinculados al expediente & Recuperacion ante desastres sin garantia de integridad. \\ \hline
+\end{tabularx}
+
+\subsection{Impacto en el negocio}
+
+\begin{itemize}
+  \item \textbf{Operativo:} tiempos de atencion mas largos y retrabajo en tramites.
+  \item \textbf{Legal:} debilidad probatoria si no se demuestra la secuencia de versiones y firmas.
+  \item \textbf{Reputacional:} percepcion de desorden ante clientes corporativos que exigen seguimiento en linea.
+  \item \textbf{De cumplimiento:} dificultad para demostrar control de acceso y custodia documental.
+\end{itemize}
+
+\section{Vision del sistema (TO-BE)}
+
+El sistema de gestion notarial y juridica propuesto debe convertirse en la \textbf{fuente unica de verdad} para expedientes, documentos y su historial. La vision responde directamente a los requerimientos de alto nivel del enunciado:
+
+\begin{tabularx}{\textwidth}{|l|L|}
+\hline
+\textbf{Requerimiento} & \textbf{Que resuelve en el negocio} \\ \hline
+Gestion documental & Centraliza actas, contratos y anexos bajo un expediente y tramite identificados. \\ \hline
+Versionado & Impide la edicion de documentos firmados; solo permite nuevas versiones secuenciales. \\ \hline
+Auditoria & Registra cada operacion relevante con detalle estructurado (incluyendo XML). \\ \hline
+Firma electronica & Vincula certificado vigente, usuario notario y hash del contenido firmado. \\ \hline
+Seguimiento de tramites & Permite conocer el estado de cada procedimiento (pendiente, en proceso, firmado, cerrado). \\ \hline
+\end{tabularx}
+
+\section{Temas relevantes vinculados al problema}
+
+Los temas del enunciado no son opcionales; responden a necesidades concretas detectadas en la problematica:
+
+\begin{itemize}
+  \item \textbf{Integridad y seguridad:} hashes, restricciones y certificados evitan alteraciones no autorizadas.
+  \item \textbf{XML:} formato adecuado para almacenar eventos de auditoria con estructura flexible y consultable.
+  \item \textbf{Procedimientos almacenados:} encapsulan reglas de negocio criticas (abrir expediente, firmar, respaldar) en un solo punto controlado.
+  \item \textbf{Control de acceso:} roles separan quien captura, quien firma y quien solo consulta.
+  \item \textbf{Respaldo documental:} copias de seguridad asociadas al expediente con checksum verificable.
+\end{itemize}
+
+\section{Alcance y limites del proyecto}
+
+\subsection{Dentro del alcance}
+
+\begin{itemize}
+  \item Modelado y almacenamiento de clientes, expedientes, tramites, documentos, versiones, firmas, usuarios, roles, auditoria y respaldos.
+  \item Reglas de negocio que garanticen trazabilidad y versionado inmutable.
+  \item Implementacion de referencia en SQL Server con procedimientos almacenados.
+\end{itemize}
+
+\subsection{Fuera del alcance (en esta fase)}
+
+\begin{itemize}
+  \item Portal web o aplicacion movil para clientes finales.
+  \item Integracion con plataformas gubernamentales de firma electronica avanzada (e.firma SAT, etc.).
+  \item OCR o captura automatica de documentos escaneados.
+  \item Facturacion, cobranza o contabilidad de la notaria.
+\end{itemize}
+
+\section{Objetivos del sistema}
+
+\begin{enumerate}
+  \item Reducir el tiempo de busqueda de expedientes y documentos mediante indices y consultas estructuradas.
+  \item Eliminar la perdida de versiones al imponer un flujo de versionado secuencial e inmutable.
+  \item Garantizar trazabilidad completa desde la apertura del expediente hasta su respaldo y cierre.
+  \item Asegurar que solo usuarios autorizados con certificado vigente puedan firmar documentos.
+  \item Facilitar auditorias internas y externas mediante bitacora con detalle XML.
+\end{enumerate}
+
+\section{Supuestos y restricciones}
+
+\begin{itemize}
+  \item La notaria cuenta con un notario titular responsable de las firmas electronicas.
+  \item Los documentos digitales se almacenan en repositorio de archivos; la base de datos conserva metadatos, hashes y rutas.
+  \item El motor de base de datos sera SQL Server, alineado con el entorno academico (SSMS 22.7.0).
+  \item Los clientes se identifican con un documento unico (CURP para personas fisicas, RFC para morales).
+  \item La normativa local exige conservar el historial de actos notariales por periodos prolongados.
+\end{itemize}
+
+\section{Conclusion del entendimiento del negocio}
+
+La notaria enfrenta un problema de \textbf{gestion de informacion critica sin estructura}: los expedientes, actas, contratos, clientes y firmas existen, pero no estan gobernados por un modelo que garantice integridad, trazabilidad y acceso controlado. La digitalizacion no consiste solo en escanear papeles, sino en implantar un ciclo de vida documental donde cada cambio quede registrado, cada version sea identificable y cada firma quede ligada al contenido exacto que autoriza.
+
+Este entendimiento del negocio fundamenta las actividades siguientes: el levantamiento detallado de requerimientos (Actividad 2), la identificacion de entidades (Actividad 3), el modelo entidad-relacion (Actividad 4) y la conversion al modelo relacional (Actividad 5).
+
+\end{document}

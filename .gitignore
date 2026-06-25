@@ -1,0 +1,27 @@
+# LaTeX build artifacts
+build/
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.out
+*.synctex.gz
+*.toc
+*.nav
+*.snm
+*.vrb
+
+# Python
+__pycache__/
+*.pyc
+sql/_synthetic_output.sql
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Keep deliverable PDFs in output/
+!output/
+!output/*.pdf

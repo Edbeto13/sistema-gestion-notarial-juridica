@@ -1,0 +1,366 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2cm, right=2cm]{geometry}
+
+\usepackage{fontspec}
+\usepackage[spanish, bidi=basic, provide=*]{babel}
+\babelprovide[import, onchar=ids fonts]{spanish}
+\babelprovide[import, onchar=ids fonts]{english}
+\babelfont{rm}{Noto Sans}
+
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{ragged2e}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{float}
+
+\definecolor{primary}{HTML}{0E2338}
+\definecolor{accent}{HTML}{0A8F94}
+\definecolor{neutral}{HTML}{1A1A1E}
+
+\usepackage[colorlinks=true, linkcolor=primary, urlcolor=accent]{hyperref}
+
+\newcolumntype{L}{>{\RaggedRight\arraybackslash}X}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{accent},
+  backgroundcolor=\color{accent!5!white}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\color{neutral}\small Sistema Notarial y Juridico}
+\fancyhead[R]{\color{neutral}\small Diseno de Base de Datos}
+\fancyfoot[C]{\thepage}
+
+\titleformat{\section}{\color{primary}\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\color{accent}\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+\title{\Huge\bfseries\color{primary} Sistema de Gestion Notarial y Juridica\\ \large Levantamiento de requerimientos y diseno de base de datos}
+\author{\textbf{Equipo de Analisis de Datos}}
+\date{\small Actividades 1--5 --- Ciclo 2025--2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Este documento cumple el enunciado de \texttt{instruccion.txt} para el Sistema de Gestion Notarial y Juridica. Se desarrollan las actividades 1 a 5: entendimiento del negocio y problematica, levantamiento de requerimientos e informacion a almacenar, identificacion de entidades, modelo entidad-relacion y conversion al modelo relacional con normalizacion. La implementacion de referencia se despliega en SQL Server mediante scripts T-SQL ejecutables en SSMS 22.7.0.
+\end{abstract}
+
+\section{Actividad 1: Sistema de Gestion Notarial y Juridica}
+
+\subsection{Problematica: objetos a digitalizar}
+
+Una notaria requiere digitalizar los siguientes objetos de negocio:
+
+\begin{itemize}
+  \item \textbf{Expedientes} --- carpetas que agrupan tramites de un cliente.
+  \item \textbf{Actas} --- constancias notariales de hechos o comparecencias.
+  \item \textbf{Contratos} --- instrumentos con montos, vigencia y clausulas.
+  \item \textbf{Clientes} --- personas fisicas o morales solicitantes del servicio.
+  \item \textbf{Firmas electronicas} --- evidencia criptografica sobre documentos autorizados.
+\end{itemize}
+
+\subsection{Situacion actual}
+
+\begin{itemize}
+  \item \textbf{Retraso en busquedas:} localizar expedientes o documentos es lento por falta de indice unificado.
+  \item \textbf{Riesgo de extravio documental:} copias dispersas en archivos fisicos y rutas digitales inconexas.
+  \item \textbf{Falta de trazabilidad:} no se reconstruye con certeza quien modifico, firmo o respaldo cada documento.
+\end{itemize}
+
+\subsection{Requerimientos de alto nivel}
+
+\begin{itemize}
+  \item Gestion documental.
+  \item Versionado.
+  \item Auditoria.
+  \item Firma electronica.
+  \item Seguimiento de tramites.
+\end{itemize}
+
+\subsection{Temas relevantes}
+
+\begin{itemize}
+  \item Integridad y seguridad (hashes SHA-256, restricciones, certificados).
+  \item XML (detalle estructurado de eventos de auditoria).
+  \item Procedimientos almacenados (operaciones criticas encapsuladas).
+  \item Control de acceso (usuarios, roles y permisos).
+  \item Respaldo documental (copias con checksum por expediente).
+\end{itemize}
+
+\subsection{Contexto y alcance}
+
+La notaria es una institucion de fe publica con ciclo de vida documental prolongado y alta responsabilidad legal. El sistema propuesto sera la fuente unica de verdad para expedientes, versiones, firmas y bitacora de auditoria. El analisis detallado del negocio se documenta adicionalmente en \texttt{actividad1\_entendimiento\_negocio.txt}.
+
+\section{Actividad 2: Levantamiento de requerimientos}
+
+\subsection{Informacion que debe almacenar el sistema}
+
+\begin{tabularx}{\textwidth}{|l|L|}
+\hline
+\textbf{Dominio} & \textbf{Informacion a persistir} \\ \hline
+Identidad & Tipo de persona, nombre o razon social, identificacion unica, contacto, direccion, estado activo. \\ \hline
+Expedientes & Folio unico, cliente asociado, fecha de apertura, estado, observaciones. \\ \hline
+Tramites & Tipo de tramite, expediente padre, descripcion, estado, fechas de inicio y cierre. \\ \hline
+Documentos & Tipo (acta, contrato, anexo), tramite, titulo, ruta de archivo, fecha de creacion. \\ \hline
+Actas y contratos & Numero de acta, tipo, lugar; monto, moneda y vigencia del contrato. \\ \hline
+Versionado & Numero secuencial, resumen, hash del contenido, indicador de firma, fecha. \\ \hline
+Firmas & Version firmada, usuario notario, hash firmado, serial de certificado, fecha. \\ \hline
+Seguridad & Usuarios internos, roles, asignacion usuario-rol, certificados vigentes. \\ \hline
+Auditoria & Tabla afectada, operacion, registro, usuario, detalle XML, fecha del evento. \\ \hline
+Respaldo & Expediente respaldado, ruta, checksum, fecha, observaciones. \\ \hline
+\end{tabularx}
+
+\subsection{Requerimientos funcionales}
+
+\begin{tabularx}{\textwidth}{|l|L|}
+\hline
+\textbf{ID} & \textbf{Descripcion} \\ \hline
+RF01 & Registrar clientes persona fisica o juridica con datos de identificacion unicos. \\ \hline
+RF02 & Crear y consultar expedientes notariales asociados a un cliente. \\ \hline
+RF03 & Gestionar tramites con estados y fechas de inicio y cierre. \\ \hline
+RF04 & Almacenar documentos (actas, contratos y anexos) por tramite. \\ \hline
+RF05 & Controlar versiones inmutables de cada documento. \\ \hline
+RF06 & Buscar expedientes y documentos por folio, cliente, fecha o tipo. \\ \hline
+RF07 & Aplicar firma electronica validando certificado y hash del documento. \\ \hline
+RF08 & Registrar auditoria de operaciones con detalle estructurado. \\ \hline
+RF09 & Programar y consultar respaldos documentales por expediente. \\ \hline
+RF10 & Controlar acceso mediante usuarios y roles. \\ \hline
+RF11 & Exportar metadatos de auditoria en formato XML. \\ \hline
+RF12 & Dar seguimiento al ciclo de vida de cada tramite. \\ \hline
+\end{tabularx}
+
+\subsection{Requerimientos no funcionales}
+
+\begin{itemize}
+  \item \textbf{RNF01 Integridad:} claves foraneas, restricciones CHECK y hashes SHA-256.
+  \item \textbf{RNF02 Seguridad:} control de acceso por rol y certificados electronicos vigentes.
+  \item \textbf{RNF03 Auditoria:} bitacora inmutable con operacion, usuario y XML de detalle.
+  \item \textbf{RNF04 Rendimiento:} indices en folio, estado, cliente y hash de versiones.
+  \item \textbf{RNF05 Disponibilidad:} respaldos periodicos con checksum verificable.
+  \item \textbf{RNF06 Trazabilidad:} historial completo de versiones, firmas y cambios de estado.
+  \item \textbf{RNF07 Escalabilidad:} esquema normalizado en 3FN para crecimiento documental.
+  \item \textbf{RNF08 XML:} almacenamiento de eventos de auditoria en columna XML indexada.
+  \item \textbf{RNF09 Procedimientos almacenados:} operaciones criticas encapsuladas en SPs.
+  \item \textbf{RNF10 Cumplimiento:} firma electronica ligada a hash y certificado del notario.
+\end{itemize}
+
+\subsection{Usuarios del sistema}
+
+\begin{itemize}
+  \item \textbf{Notario:} autoriza actos, aplica firma electronica y cierra expedientes.
+  \item \textbf{Secretario:} registra clientes, expedientes, documentos y versiones.
+  \item \textbf{Cliente:} consulta de forma limitada el estado de sus expedientes.
+  \item \textbf{Administrador:} gestiona usuarios, roles y respaldos.
+  \item \textbf{Auditor:} consulta la bitacora de auditoria sin modificar datos.
+\end{itemize}
+
+\subsection{Reglas de negocio}
+
+\begin{enumerate}
+  \item RN01: Todo expediente debe pertenecer a un cliente activo.
+  \item RN02: Un documento firmado no se edita; solo se crea una nueva version.
+  \item RN03: La firma electronica exige certificado vigente y hash del documento.
+  \item RN04: Todo cambio de estado de tramite genera registro de auditoria.
+  \item RN05: Solo el notario puede firmar versiones finales de documentos.
+  \item RN06: Las versiones son secuenciales y no reutilizables.
+  \item RN07: Todo expediente activo debe contar con respaldo documentado.
+  \item RN08: El acceso a documentos sensibles depende del rol asignado.
+\end{enumerate}
+
+\subsection{Procesos principales}
+
+Los procesos cubren: registro de cliente, apertura de expediente, inicio de tramite, carga de documento, versionado, firma electronica, respaldo y consulta de auditoria. El flujo se modela en el diagrama Mermaid \texttt{diagramas/procesos\_notaria.mmd}.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{../assets/diagramas/procesos_notaria.png}{
+    \includegraphics[width=0.95\textwidth]{../assets/diagramas/procesos_notaria.png}
+  }{
+    \begin{tcolorbox}[colback=accent!5!white,colframe=primary,title=Diagrama Mermaid (fuente)]
+    Consulte \texttt{IAparaBD/diagramas/procesos\_notaria.mmd} para visualizar el flujo completo en el visor Mermaid del IDE.
+    \end{tcolorbox}
+  }
+  \caption{Procesos principales del sistema notarial}
+\end{figure}
+
+\section{Actividad 3: Identificacion de entidades}
+
+\begin{tabularx}{\textwidth}{|l|L|l|}
+\hline
+\textbf{Entidad} & \textbf{Descripcion} & \textbf{Clave} \\ \hline
+Cliente & Persona fisica o moral que solicita servicios notariales. & id\_cliente \\ \hline
+Expediente & Carpeta que agrupa tramites de un cliente. & folio\_expediente \\ \hline
+TipoTramite & Catalogo de tipos (escritura, poder, acta). & id\_tipo\_tramite \\ \hline
+Tramite & Procedimiento especifico dentro del expediente. & id\_tramite \\ \hline
+Documento & Archivo logico asociado a un tramite. & id\_documento \\ \hline
+VersionDocumento & Revision inmutable de un documento. & id\_version \\ \hline
+Acta & Especializacion ISA de documento notarial. & id\_documento \\ \hline
+Contrato & Especializacion ISA con monto y vigencia. & id\_documento \\ \hline
+Usuario & Operador interno del sistema. & id\_usuario \\ \hline
+Rol & Perfil de permisos (notario, secretario, etc.). & id\_rol \\ \hline
+FirmaElectronica & Evidencia criptografica sobre una version. & id\_firma \\ \hline
+Auditoria & Bitacora de operaciones con detalle XML. & id\_auditoria \\ \hline
+Respaldo & Registro de copias de seguridad por expediente. & id\_respaldo \\ \hline
+\end{tabularx}
+
+\subsection{Atributos principales por entidad}
+
+\begin{tabularx}{\textwidth}{|l|L|l|}
+\hline
+\textbf{Entidad} & \textbf{Atributos principales} & \textbf{Clave / identificador} \\ \hline
+Cliente & tipo\_persona, nombre\_razon, identificacion, correo, telefono, direccion, fecha\_registro, activo & PK: id\_cliente; UQ: identificacion \\ \hline
+Expediente & folio\_expediente, id\_cliente, fecha\_apertura, estado, observaciones & PK: id\_expediente; UQ: folio\_expediente \\ \hline
+TipoTramite & codigo, nombre, descripcion, activo & PK: id\_tipo\_tramite; UQ: codigo \\ \hline
+Tramite & id\_expediente, id\_tipo\_tramite, descripcion, estado, fecha\_inicio, fecha\_cierre & PK: id\_tramite \\ \hline
+Documento & id\_tramite, tipo\_documento, titulo, ruta\_archivo, fecha\_creacion & PK: id\_documento \\ \hline
+VersionDocumento & id\_documento, numero\_version, contenido\_resumen, hash\_documento, firmado, fecha\_version & PK: id\_version; UQ: (id\_documento, numero\_version) \\ \hline
+Acta & id\_documento, numero\_acta, tipo\_acta, lugar\_celebracion & PK/FK: id\_documento; UQ: numero\_acta \\ \hline
+Contrato & id\_documento, monto, moneda, vigencia\_inicio, vigencia\_fin & PK/FK: id\_documento \\ \hline
+Usuario & login\_usuario, nombre\_completo, correo, certificado\_serial, certificado\_vigente, activo & PK: id\_usuario; UQ: login, correo \\ \hline
+Rol & nombre\_rol, descripcion & PK: id\_rol; UQ: nombre\_rol \\ \hline
+UsuarioRol & id\_usuario, id\_rol, fecha\_asignacion & PK: (id\_usuario, id\_rol) \\ \hline
+FirmaElectronica & id\_version, id\_usuario, hash\_firmado, certificado\_serial, fecha\_firma & PK: id\_firma \\ \hline
+Auditoria & id\_usuario, tabla\_afectada, operacion, id\_registro, detalle\_xml, fecha\_evento & PK: id\_auditoria \\ \hline
+Respaldo & id\_expediente, ruta\_respaldo, checksum\_archivo, fecha\_respaldo, observaciones & PK: id\_respaldo \\ \hline
+\end{tabularx}
+
+\section{Actividad 4: Modelo entidad-relacion}
+
+\subsection{Diagrama E-R}
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{../assets/diagramas/er_notaria.png}{
+    \includegraphics[width=\textwidth]{../assets/diagramas/er_notaria.png}
+  }{
+    \begin{tcolorbox}[colback=accent!5!white,colframe=primary,title=Diagrama Mermaid (fuente)]
+    Consulte \texttt{IAparaBD/diagramas/er\_notaria.mmd} para el diagrama entidad-relacion editable.
+    \end{tcolorbox}
+  }
+  \caption{Modelo entidad-relacion inicial}
+\end{figure}
+
+\subsection{Relaciones y cardinalidades}
+
+\begin{tabularx}{\textwidth}{|l|l|L|}
+\hline
+\textbf{Relacion} & \textbf{Cardinalidad} & \textbf{Justificacion} \\ \hline
+Cliente -- Expediente & 1:N & Un cliente puede tener varios expedientes. \\ \hline
+Expediente -- Tramite & 1:N & Un expediente agrupa multiples tramites. \\ \hline
+TipoTramite -- Tramite & 1:N & Catalogo reutilizable de tipos. \\ \hline
+Tramite -- Documento & 1:N & Un tramite puede generar varios documentos. \\ \hline
+Documento -- VersionDocumento & 1:N & Versionado obligatorio e inmutable. \\ \hline
+Documento -- Acta / Contrato & 1:0..1 & Especializacion ISA sin duplicar atributos comunes. \\ \hline
+VersionDocumento -- FirmaElectronica & 1:N & Varias firmas posibles por version. \\ \hline
+Usuario -- Rol & N:M & Tabla asociativa UsuarioRol. \\ \hline
+Usuario -- Auditoria & 1:N & Cada evento de bitacora identifica al operador responsable. \\ \hline
+Expediente -- Respaldo & 1:N & Historial de respaldos en el tiempo. \\ \hline
+\end{tabularx}
+
+\subsection{Justificacion del modelo}
+
+Se separan expediente, tramite y documento para garantizar trazabilidad operativa. El versionado independiente permite auditoria y firma electronica sin alterar revisiones previas. Las especializaciones Acta y Contrato conservan atributos propios sin redundancia. Las entidades Usuario, Rol, Auditoria y Respaldo materializan los requerimientos de seguridad, control de acceso y cumplimiento normativo.
+
+\section{Actividad 5: Modelo relacional e implementacion SQL Server}
+
+\subsection{Tablas propuestas}
+
+\begin{tabularx}{\textwidth}{|l|L|}
+\hline
+\textbf{Tabla} & \textbf{Claves y relaciones} \\ \hline
+notaria.Cliente & PK: id\_cliente. \\ \hline
+notaria.Expediente & PK: id\_expediente; FK: id\_cliente $\rightarrow$ Cliente. \\ \hline
+notaria.TipoTramite & PK: id\_tipo\_tramite. \\ \hline
+notaria.Tramite & PK: id\_tramite; FK: id\_expediente, id\_tipo\_tramite. \\ \hline
+notaria.Documento & PK: id\_documento; FK: id\_tramite. \\ \hline
+notaria.VersionDocumento & PK: id\_version; FK: id\_documento; UQ: (id\_documento, numero\_version). \\ \hline
+notaria.Acta & PK/FK: id\_documento $\rightarrow$ Documento. \\ \hline
+notaria.Contrato & PK/FK: id\_documento $\rightarrow$ Documento. \\ \hline
+notaria.Usuario & PK: id\_usuario. \\ \hline
+notaria.Rol & PK: id\_rol. \\ \hline
+notaria.UsuarioRol & PK compuesta: (id\_usuario, id\_rol). \\ \hline
+notaria.FirmaElectronica & PK: id\_firma; FK: id\_version, id\_usuario. \\ \hline
+notaria.Auditoria & PK: id\_auditoria; FK: id\_usuario; XML: detalle\_xml. \\ \hline
+notaria.Respaldo & PK: id\_respaldo; FK: id\_expediente. \\ \hline
+\end{tabularx}
+
+\subsection{Relaciones entre tablas (claves foraneas)}
+
+\begin{tabularx}{\textwidth}{|l|l|l|}
+\hline
+\textbf{Tabla origen} & \textbf{FK} & \textbf{Tabla destino} \\ \hline
+Expediente & id\_cliente & Cliente \\ \hline
+Tramite & id\_expediente & Expediente \\ \hline
+Tramite & id\_tipo\_tramite & TipoTramite \\ \hline
+Documento & id\_tramite & Tramite \\ \hline
+VersionDocumento & id\_documento & Documento \\ \hline
+Acta & id\_documento & Documento \\ \hline
+Contrato & id\_documento & Documento \\ \hline
+UsuarioRol & id\_usuario, id\_rol & Usuario, Rol \\ \hline
+FirmaElectronica & id\_version, id\_usuario & VersionDocumento, Usuario \\ \hline
+Auditoria & id\_usuario & Usuario \\ \hline
+Respaldo & id\_expediente & Expediente \\ \hline
+\end{tabularx}
+
+\subsection{Normalizacion (1FN, 2FN y 3FN)}
+
+\textbf{Primera forma normal (1FN):} todos los atributos son atomicos. No se almacenan listas de documentos ni firmas en un solo campo; cada version, firma y evento de auditoria ocupa su propia fila. Los detalles variables de auditoria se guardan en \texttt{detalle\_xml} como un solo valor XML bien formado, no como texto no estructurado repetido.
+
+\textbf{Segunda forma normal (2FN):} las tablas con clave compuesta (\texttt{UsuarioRol}, \texttt{VersionDocumento} con UQ compuesta) no presentan dependencias parciales. Atributos como \texttt{monto} y \texttt{vigencia\_inicio} residen en \texttt{Contrato}, dependiendo de la totalidad de la clave de la especializacion (\texttt{id\_documento}), no de una parte de una clave compuesta ajena.
+
+\textbf{Tercera forma normal (3FN):} se eliminan dependencias transitivas mediante catalogos y especializacion ISA. \texttt{TipoTramite} separa la descripcion del tipo de tramite del expediente; \texttt{Acta} y \texttt{Contrato} separan atributos propios sin duplicar columnas comunes de \texttt{Documento}. Los datos del cliente no se repiten en \texttt{Expediente}; solo se guarda \texttt{id\_cliente} como FK. El esquema resultante cumple 3FN y reduce redundancia, anomalias de actualizacion y riesgo de inconsistencia.
+
+\subsection{Procedimientos almacenados}
+
+\begin{tabularx}{\textwidth}{|l|L|}
+\hline
+\textbf{Procedimiento} & \textbf{Funcion} \\ \hline
+notaria.sp\_AbrirExpediente & Crea expediente y registra auditoria XML. \\ \hline
+notaria.sp\_RegistrarVersionDocumento & Genera version con hash SHA-256. \\ \hline
+notaria.sp\_AplicarFirmaElectronica & Valida certificado y marca version como firmada. \\ \hline
+notaria.sp\_CambiarEstadoTramite & Controla transiciones de estado con auditoria. \\ \hline
+notaria.sp\_RegistrarAuditoria & Inserta evento en bitacora XML. \\ \hline
+notaria.sp\_EjecutarRespaldoExpediente & Registra respaldo con checksum. \\ \hline
+\end{tabularx}
+
+\subsection{Despliegue en SSMS 22.7.0}
+
+La base de datos \texttt{NotariaJuridica} se despliega ejecutando en orden los scripts de \texttt{IAparaBD/sql/}:
+
+\begin{enumerate}
+  \item \texttt{01\_create\_database.sql}
+  \item \texttt{02\_create\_schema.sql}
+  \item \texttt{03\_stored\_procedures.sql}
+  \item \texttt{04\_seed\_data.sql}
+  \item \texttt{05\_generate\_synthetic\_data.sql} (opcional, volumen amplio)
+\end{enumerate}
+
+Instancia de prueba validada: \texttt{(localdb)\textbackslash MSSQLLocalDB} con SQL Server 2025 Express. El script 04 genera datos minimos de demostracion; el script 05 agrega datos sinteticos adicionales para pruebas de volumen.
+
+\subsection{Consulta de verificacion}
+
+\begin{lstlisting}
+USE NotariaJuridica;
+SELECT e.folio_expediente, c.nombre_razon, t.estado, d.titulo, v.numero_version, v.firmado
+FROM notaria.Expediente e
+JOIN notaria.Cliente c ON c.id_cliente = e.id_cliente
+JOIN notaria.Tramite t ON t.id_expediente = e.id_expediente
+JOIN notaria.Documento d ON d.id_tramite = t.id_tramite
+LEFT JOIN notaria.VersionDocumento v ON v.id_documento = d.id_documento;
+\end{lstlisting}
+
+\section{Conclusion}
+
+El diseno propuesto cubre los entregables de las actividades 1 a 5 descritos en \texttt{instruccion.txt} y se implementa en una base de datos real en SQL Server. La coherencia entre problematica, requerimientos, entidades, diagrama E-R, tablas normalizadas, relaciones FK y procedimientos almacenados permite digitalizar la operacion notarial con trazabilidad, versionado, firma electronica y respaldo documental.
+
+\end{document}
