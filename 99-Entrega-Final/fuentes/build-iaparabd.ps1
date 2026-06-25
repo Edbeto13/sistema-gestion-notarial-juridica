@@ -9,8 +9,8 @@ $ErrorActionPreference = "Stop"
 $rootDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $buildDir = Join-Path $rootDir "build"
 $outputDir = Join-Path $rootDir "output"
-$assetsDir = Join-Path $rootDir "assets\diagramas"
-$diagramasDir = Join-Path $rootDir "diagramas"
+$assetsDir = Join-Path $rootDir "..\..\04-Actividad-Modelo-ER\assets\diagramas"
+$diagramasDir = Join-Path $rootDir "..\..\04-Actividad-Modelo-ER\diagramas"
 
 function Test-Tool {
     param(
@@ -172,9 +172,11 @@ try {
     }
     if (Test-Path (Join-Path $buildDir "notaria.pdf")) {
         Copy-Item (Join-Path $buildDir "notaria.pdf") (Join-Path $outputDir "notaria.pdf") -Force
+        $cuadernoPdf = Join-Path $rootDir "..\cuaderno-completo.pdf"
+        Copy-Item (Join-Path $buildDir "notaria.pdf") $cuadernoPdf -Force
     }
 
-    Write-Host "Done. Generated PDFs are in IAparaBD/output/."
+    Write-Host "Done. Cuaderno PDF: 99-Entrega-Final/cuaderno-completo.pdf"
 }
 finally {
     Pop-Location

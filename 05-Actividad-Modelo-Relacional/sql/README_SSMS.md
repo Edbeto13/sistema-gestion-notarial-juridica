@@ -26,7 +26,8 @@ Base de datos de ejemplo para el **Sistema de Gestion Notarial y Juridica**.
 
 ```powershell
 $server = "(localdb)\MSSQLLocalDB"
-$sqlDir = "sql"
+# Ejecutar desde la raiz del repositorio:
+$sqlDir = "05-Actividad-Modelo-Relacional/sql"
 foreach ($f in "01_create_database.sql","02_create_schema.sql","03_stored_procedures.sql","04_seed_data.sql") {
     sqlcmd -S $server -E -i (Join-Path $sqlDir $f) -b
 }

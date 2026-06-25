@@ -183,8 +183,8 @@ Los procesos cubren: registro de cliente, apertura de expediente, inicio de tram
 
 \begin{figure}[H]
   \centering
-  \IfFileExists{../assets/diagramas/procesos_notaria.png}{
-    \includegraphics[width=0.95\textwidth]{../assets/diagramas/procesos_notaria.png}
+  \IfFileExists{../../../04-Actividad-Modelo-ER/diagramas/procesos_notaria.png}{
+    \includegraphics[width=0.95\textwidth]{../../../04-Actividad-Modelo-ER/diagramas/procesos_notaria.png}
   }{
     \begin{tcolorbox}[colback=accent!5!white,colframe=primary,title=Diagrama Mermaid (fuente)]
     Consulte \texttt{IAparaBD/diagramas/procesos\_notaria.mmd} para visualizar el flujo completo en el visor Mermaid del IDE.
@@ -240,8 +240,8 @@ Respaldo & id\_expediente, ruta\_respaldo, checksum\_archivo, fecha\_respaldo, o
 
 \begin{figure}[H]
   \centering
-  \IfFileExists{../assets/diagramas/er_notaria.png}{
-    \includegraphics[width=\textwidth]{../assets/diagramas/er_notaria.png}
+  \IfFileExists{../../../04-Actividad-Modelo-ER/diagramas/er_notaria.png}{
+    \includegraphics[width=\textwidth]{../../../04-Actividad-Modelo-ER/diagramas/er_notaria.png}
   }{
     \begin{tcolorbox}[colback=accent!5!white,colframe=primary,title=Diagrama Mermaid (fuente)]
     Consulte \texttt{IAparaBD/diagramas/er\_notaria.mmd} para el diagrama entidad-relacion editable.
