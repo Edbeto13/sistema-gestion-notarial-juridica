@@ -1,6 +1,6 @@
 # Cuaderno — Sistema de Gestión Notarial y Jurídica
 
-**Repositorio de entrega académica** organizado para revisión punto por punto según el enunciado.
+**Repositorio de entrega académica** organizado para revisión.
 
 | Dato | Valor |
 |------|-------|
