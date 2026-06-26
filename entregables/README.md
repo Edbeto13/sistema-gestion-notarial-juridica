@@ -15,13 +15,7 @@ Equipo **BETAXIS** · Universidad de Negocios ISEC · 25 de junio de 2026
 
 Entregar [`99-Entrega-Final/proyecto_final.pdf`](../99-Entrega-Final/proyecto_final.pdf) — cubre `instruccionesv2.txt` §1–9.
 
-Recompilar desde [`99-Entrega-Final/fuentes/`](../99-Entrega-Final/fuentes/):
-
-```powershell
-cd 99-Entrega-Final/fuentes
-powershell -ExecutionPolicy Bypass -File build-iaparabd.ps1 -Mode proyecto_final
-copy ..\..\output\proyecto_final.pdf ..\proyecto_final.pdf
-```
+Cuaderno act. 1–5: [`99-Entrega-Final/cuaderno-completo.pdf`](../99-Entrega-Final/cuaderno-completo.pdf).
 
 ### SQL
 

@@ -50,18 +50,6 @@ foreach ($f in "01_create_database.sql","02_create_schema.sql","03_stored_proced
 }
 ```
 
-## Compilar PDFs
-
-```powershell
-# Proyecto final v2 (instruccionesv2.txt)
-powershell -ExecutionPolicy Bypass -File 99-Entrega-Final/fuentes/build-iaparabd.ps1 -Mode proyecto_final
-
-# Cuaderno actividades 1–5 (instruccion.txt)
-powershell -ExecutionPolicy Bypass -File 99-Entrega-Final/fuentes/build-iaparabd.ps1 -Mode notaria
-```
-
-Ver [99-Entrega-Final/fuentes/README-build.md](99-Entrega-Final/fuentes/README-build.md).
-
 ## Estructura del cuaderno
 
 ```
