@@ -9,7 +9,8 @@ erDiagram
     VersionDocumento ||--o{ FirmaElectronica : recibe
     Usuario ||--o{ FirmaElectronica : autoriza
     Usuario ||--o{ Auditoria : registra
-    Usuario }o--o{ Rol : asigna
+    Usuario ||--o{ UsuarioRol : tiene
+    Rol ||--o{ UsuarioRol : asigna
     Expediente ||--o{ Respaldo : respalda
 
     Cliente {
@@ -56,13 +57,13 @@ erDiagram
         boolean firmado
     }
     Acta {
-        int id_documento PK_FK
+        int id_documento PK
         string numero_acta UK
         string tipo_acta
         string lugar_celebracion
     }
     Contrato {
-        int id_documento PK_FK
+        int id_documento PK
         decimal monto
         string moneda
         date vigencia_inicio
@@ -77,6 +78,11 @@ erDiagram
     Rol {
         int id_rol PK
         string nombre_rol UK
+    }
+    UsuarioRol {
+        int id_usuario FK
+        int id_rol FK
+        datetime fecha_asignacion
     }
     FirmaElectronica {
         int id_firma PK

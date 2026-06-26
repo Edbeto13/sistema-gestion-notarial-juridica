@@ -1,8 +1,11 @@
 # Enunciado de la actividad
 
-Archivo oficial: **[instruccion.txt](instruccion.txt)**
+| Archivo | Alcance |
+|---------|---------|
+| **[instruccion.txt](instruccion.txt)** | Actividades 1–5 (cuaderno `01`–`05`) |
+| **[instruccionesv2.txt](instruccionesv2.txt)** | Proyecto final §1–9 |
 
-Este cuaderno responde **punto por punto** a ese enunciado. Use **[GUIA-REVISION.md](../GUIA-REVISION.md)** para ubicar cada línea en su entregable correspondiente.
+Use **[GUIA-REVISION.md](../GUIA-REVISION.md)** (act. 1–5) y **[CUMPLIMIENTO-INSTRUCCIONES-V2.md](../CUMPLIMIENTO-INSTRUCCIONES-V2.md)** (v2).
 
 ## Actividades del enunciado
 

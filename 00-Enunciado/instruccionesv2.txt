@@ -1,0 +1,171 @@
+# Proyecto Final: Bases de Datos
+
+## Objetivo General
+
+Integrar los conocimientos adquiridos durante el curso mediante el análisis, diseño, implementación, administración y explotación de una base de datos que resuelva una problemática real de una organización, aplicando los principios de modelado de datos, normalización, SQL, integridad, seguridad y gestión de transacciones.
+
+---
+
+# Estructura de la Entrega Final
+
+## 1. Portada
+
+Debe contener:
+
+- Nombre de la institución
+- Carrera
+- Materia: **Bases de Datos**
+- Título del proyecto
+- Nombre del equipo
+- Integrantes
+- Nombre del docente
+- Fecha
+
+---
+
+## 2. Introducción
+
+Describir:
+
+- Contexto de la organización.
+- Problemática identificada.
+- Importancia de la solución propuesta.
+- Alcance del proyecto.
+
+**Extensión mínima:** 2 cuartillas.
+
+---
+
+## 3. Planteamiento del Problema
+
+Incluir:
+
+- Situación actual.
+- Problemas detectados.
+- Impacto en la organización.
+- Justificación del proyecto.
+
+### Ejemplo
+
+> La empresa presenta inconsistencias en el control de inventarios debido al manejo manual de información, ocasionando pérdidas económicas y retrasos en la toma de decisiones.
+
+**Extensión mínima:** 2 cuartillas.
+
+---
+
+## 4. Objetivos
+
+### Objetivo General
+
+Debe responder:
+
+- ¿Qué se pretende resolver?
+
+### Objetivos Específicos
+
+Mínimo **5 objetivos**.
+
+### Ejemplo
+
+- Automatizar el registro de clientes.
+- Controlar inventarios en tiempo real.
+- Generar reportes automáticos.
+- Garantizar integridad de datos.
+- Implementar mecanismos de seguridad.
+
+---
+
+## 5. Requerimientos del Sistema
+
+### Requerimientos Funcionales
+
+Mínimo **15 requerimientos**.
+
+### Ejemplo
+
+- Registrar clientes.
+- Registrar productos.
+- Realizar ventas.
+- Generar facturas.
+
+### Requerimientos No Funcionales
+
+Mínimo **10 requerimientos**.
+
+### Ejemplo
+
+- Disponibilidad 24x7.
+- Acceso mediante autenticación.
+- Tiempo de respuesta menor a 3 segundos.
+
+---
+
+## 6. Reglas de Negocio
+
+Definir mínimo **15 reglas**.
+
+### Ejemplo
+
+- Un alumno puede inscribirse máximo a 8 materias.
+- Un cliente puede tener múltiples pedidos.
+- Una venta debe tener al menos un producto.
+
+---
+
+## 7. Modelo Entidad-Relación (E-R)
+
+Incluir:
+
+- Entidades.
+- Atributos.
+- Relaciones.
+- Cardinalidades.
+- Claves primarias.
+
+El modelo E-R representa entidades, atributos y relaciones del dominio de negocio.
+
+### Entregable
+
+- Diagrama E-R completo.
+
+---
+
+## 8. Diccionario de Datos
+
+Para cada tabla documentar:
+
+| Campo | Tipo | Longitud | PK | FK | Nulo | Descripción |
+|---|---|---:|:---:|:---:|:---:|---|
+|  |  |  |  |  |  |  |
+
+### Mínimo
+
+- Todas las tablas del proyecto.
+
+---
+
+## 9. Modelo Relacional
+
+Presentar:
+
+- Tablas.
+- Relaciones.
+- Llaves primarias.
+- Llaves foráneas.
+
+### Ejemplo
+
+```txt
+CLIENTE
+--------
+IdCliente (PK)
+Nombre
+Correo
+
+PEDIDO
+--------
+IdPedido (PK)
+IdCliente (FK)
+Fecha
+Total
+``

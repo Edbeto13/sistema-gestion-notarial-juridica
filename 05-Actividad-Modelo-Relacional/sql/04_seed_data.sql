@@ -73,9 +73,9 @@ GO
 
 /* Documentos */
 INSERT INTO notaria.Documento (id_tramite, tipo_documento, titulo, ruta_archivo) VALUES
-    (1, 'CONTRATO', N'Contrato de compraventa borrador', N'\\archivo\\exp2026\\doc001.pdf'),
-    (2, 'ACTA', N'Acta de comparecencia', N'\\archivo\\exp2026\\doc002.pdf'),
-    (3, 'CONTRATO', N'Contrato de arrendamiento', N'\\archivo\\exp2026\\doc003.pdf');
+    (1, 'CONTRATO', N'Contrato de compraventa borrador', N'archivos-digitalizados/EXP-2026-0001/contrato-compraventa.pdf.txt'),
+    (2, 'ACTA', N'Acta de comparecencia', N'archivos-digitalizados/EXP-2026-0001/acta-comparecencia.pdf.txt'),
+    (3, 'CONTRATO', N'Contrato de arrendamiento', N'archivos-digitalizados/EXP-2026-0002/contrato-arrendamiento.pdf.txt');
 GO
 
 INSERT INTO notaria.Contrato (id_documento, monto, moneda, vigencia_inicio, vigencia_fin) VALUES

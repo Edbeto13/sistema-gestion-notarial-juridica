@@ -1,0 +1,15 @@
+{
+  "tipo_persona": "FISICA",
+  "nombre_razon": "Juan Perez Martinez",
+  "identificacion": "CURP-PEMJ850101HDFRRN09",
+  "correo": "juan.perez@email.demo",
+  "telefono": "5551234567",
+  "documentos_fisicos_antes": [
+    "INE vigente (copia certificada)",
+    "CURP",
+    "Comprobante de domicilio",
+    "Acta de nacimiento"
+  ],
+  "tabla_bd": "notaria.Cliente",
+  "nota": "Antes se duplicaba el legajo en cada expediente; despues una sola fila con UQ en identificacion"
+}

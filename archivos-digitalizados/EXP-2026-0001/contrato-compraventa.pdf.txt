@@ -1,0 +1,12 @@
+[PLACEHOLDER — Escritura / contrato de compraventa]
+Monto: 2,500,000.00 MXN
+Vigencia inicio: 2026-03-01
+
+--- Antes (fisico) ---
+Borrador impreso con clausulas financieras en prosa.
+Multiples versiones manuscritas antes de la escritura definitiva.
+
+--- Despues (BD) ---
+notaria.Documento (tipo CONTRATO) + notaria.Contrato
+notaria.VersionDocumento (versiones secuenciales con hash)
+notaria.FirmaElectronica tras certificado vigente del notario

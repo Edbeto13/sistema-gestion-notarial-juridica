@@ -1,0 +1,9 @@
+{
+  "folio_expediente": "EXP-2026-0001",
+  "ruta_respaldo": "archivos-digitalizados/respaldos/EXP-2026-0001.manifest.json",
+  "checksum_sha256": "EJEMPLO-CHECKSUM-64-CHARS",
+  "fecha_respaldo": "2026-06-25",
+  "contenido_antes": "Carpeta manila completa trasladada a bodega de archivo",
+  "tabla_bd": "notaria.Respaldo",
+  "sp_registro": "notaria.sp_EjecutarRespaldoExpediente"
+}

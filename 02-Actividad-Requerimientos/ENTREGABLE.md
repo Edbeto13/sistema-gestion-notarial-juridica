@@ -31,6 +31,11 @@
 | RF10 | Controlar acceso mediante usuarios y roles |
 | RF11 | Exportar metadatos de auditoría en XML |
 | RF12 | Seguimiento del ciclo de vida de cada trámite |
+| RF13 | Registrar y validar certificados electrónicos de notarios |
+| RF14 | Asignar y revocar roles a usuarios internos |
+| RF15 | Consultar historial de versiones y firmas por documento |
+
+> `instruccionesv2.txt` exige 15 RF; RF13–RF15 amplían el listado para la entrega final (ver `proyecto_final.pdf` §5).
 
 ## Requerimientos no funcionales (L34)
 
@@ -67,6 +72,15 @@
 6. **RN06:** Versiones secuenciales y no reutilizables.
 7. **RN07:** Expediente activo debe tener respaldo documentado.
 8. **RN08:** Acceso a documentos sensibles según rol.
+9. **RN09:** La identificación del cliente es única en el sistema.
+10. **RN10:** Un trámite pertenece a un solo expediente.
+11. **RN11:** Una firma electrónica referencia exactamente una versión de documento.
+12. **RN12:** Un certificado vencido no puede usarse para firmar.
+13. **RN13:** El folio de expediente es único en todo el sistema.
+14. **RN14:** Solo usuarios activos pueden operar en el sistema.
+15. **RN15:** Todo respaldo registra checksum SHA-256 para verificación de integridad.
+
+> `instruccionesv2.txt` exige 15 RN; RN09–RN15 en `proyecto_final.pdf` §6.
 
 ## Procesos principales (L37)
 

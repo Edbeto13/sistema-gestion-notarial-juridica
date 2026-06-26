@@ -1,19 +1,31 @@
-# Entrega final del cuaderno
+# Entrega final
 
-Documento integrado que reúne las actividades 1 a 5 en un solo informe.
+## Documentos PDF
+
+| Archivo | Enunciado | Uso |
+|---------|-----------|-----|
+| [`proyecto_final.pdf`](proyecto_final.pdf) | **`instruccionesv2.txt` §1–9** | **Entrega principal del proyecto final** |
+| [`cuaderno-completo.pdf`](cuaderno-completo.pdf) | `instruccion.txt` act. 1–5 | Cuaderno de actividades del curso |
+
+## Fuentes LaTeX
 
 | Archivo | Descripción |
 |---------|-------------|
-| `cuaderno-completo.pdf` | Informe compilado para lectura continua |
-| `fuentes/notaria_informe.txt` | Fuente LaTeX del informe completo |
-| `fuentes/build-iaparabd.ps1` | Script de compilación |
+| `fuentes/proyecto_final.txt` | Documento técnico completo (v2) |
+| `fuentes/notaria_informe.txt` | Informe actividades 1–5 |
+| `fuentes/build-iaparabd.ps1` | Compilación |
 
-## Recompilar el PDF
+## Recompilar
 
 ```powershell
 cd fuentes
+powershell -ExecutionPolicy Bypass -File build-iaparabd.ps1 -Mode proyecto_final
+copy ..\output\proyecto_final.pdf ..\proyecto_final.pdf
+```
+
+Para el cuaderno act. 1–5:
+
+```powershell
 powershell -ExecutionPolicy Bypass -File build-iaparabd.ps1 -Mode notaria
 copy ..\output\notaria.pdf ..\cuaderno-completo.pdf
 ```
-
-El PDF generado se copia manualmente a esta carpeta como `cuaderno-completo.pdf`.

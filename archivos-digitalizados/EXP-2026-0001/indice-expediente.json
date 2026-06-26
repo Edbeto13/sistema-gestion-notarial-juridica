@@ -1,0 +1,17 @@
+{
+  "folio_expediente": "EXP-2026-0001",
+  "tipo_tramite_principal": "Escritura publica - compraventa",
+  "cliente_id": 1,
+  "fecha_apertura": "2026-03-01",
+  "estado": "EN_TRAMITE",
+  "observaciones": "Compraventa de inmueble residencial",
+  "documentos_fisicos_antes": [
+    "Solicitud de comparecencia (carta)",
+    "Certificado de libertad de gravamen",
+    "Avaluo comercial",
+    "Comprobante de pago de impuestos locales",
+    "Hoja de cotejo notarial"
+  ],
+  "tabla_bd": "notaria.Expediente",
+  "digitalizado_en": "2026-03-15"
+}

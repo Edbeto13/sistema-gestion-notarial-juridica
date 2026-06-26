@@ -1,0 +1,5 @@
+[PLACEHOLDER — Contrato de arrendamiento comercial]
+Monto: 45,000.00 MXN
+Vigencia: 2026-04-01 a 2027-03-31
+Expediente: EXP-2026-0002
+Tabla BD: notaria.Documento + notaria.Contrato

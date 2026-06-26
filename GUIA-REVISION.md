@@ -8,8 +8,9 @@ Este repositorio está organizado como **cuaderno de entrega** para revisión ac
 2. Recorra las carpetas `01` a `05` en orden.
 3. En cada carpeta lea `README.md` (criterios) y `ENTREGABLE.md` (respuesta).
 4. Marque el checklist del revisor al final de cada `README.md`.
-5. Consulte `99-Entrega-Final/cuaderno-completo.pdf` como documento integrado.
-6. Valide la implementación en `05-Actividad-Modelo-Relacional/sql/`.
+5. Consulte `99-Entrega-Final/cuaderno-completo.pdf` (act. 1–5) o `proyecto_final.pdf` (v2 §1–9).
+6. Valide la implementación en `05-Actividad-Modelo-Relacional/sql/NotariaJuridica_completo.sql`.
+7. Revise cumplimiento v2 en `CUMPLIMIENTO-INSTRUCCIONES-V2.md`.
 
 ## Mapa enunciado → evidencia
 
@@ -20,7 +21,9 @@ Este repositorio está organizado como **cuaderno de entrega** para revisión ac
 | 38–46 | Actividad 3 — Entidades | `03-Actividad-Entidades/` | `ENTREGABLE.md` |
 | 48–56 | Actividad 4 — Modelo E-R | `04-Actividad-Modelo-ER/` | `ENTREGABLE.md` + diagramas |
 | 57–66 | Actividad 5 — Modelo relacional y normalización | `05-Actividad-Modelo-Relacional/` | `ENTREGABLE.md` + `sql/` |
-| — | Documento completo PDF | `99-Entrega-Final/` | `cuaderno-completo.pdf` |
+| — | Cuaderno act. 1–5 PDF | `99-Entrega-Final/` | `cuaderno-completo.pdf` |
+| — | Proyecto final v2 PDF | `99-Entrega-Final/` | `proyecto_final.pdf` |
+| — | Diccionario de datos | `entrega-v2/` | `08-diccionario-datos.md` |
 
 ## Detalle línea por línea
 

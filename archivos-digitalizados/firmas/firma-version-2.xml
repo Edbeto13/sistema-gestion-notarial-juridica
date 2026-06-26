@@ -1,0 +1,9 @@
+<FirmaElectronica xmlns="urn:notaria:demo">
+  <id_version>2</id_version>
+  <id_usuario>1</id_usuario>
+  <certificado_serial>CERT-NOT-001</certificado_serial>
+  <hash_firmado>SHA256-HEX-EJEMPLO</hash_firmado>
+  <fecha_firma>2026-03-15T14:30:00</fecha_firma>
+  <antes_fisico>Firma autografa al calce + huella dactilar + sello en seco</antes_fisico>
+  <tabla_bd>notaria.FirmaElectronica</tabla_bd>
+</FirmaElectronica>

@@ -1,0 +1,14 @@
+[PLACEHOLDER — Acta notarial digitalizada]
+Numero de acta: ACTA-2026-0042
+Tipo: Comparecencia
+Lugar: Notaria 15, CDMX
+
+Comparecientes identificados conforme a legajo digital en clientes/CURP-PEMJ850101HDFRRN09.json
+
+--- Antes (fisico) ---
+Instrumento en papel de seguridad foliado, empastado en Volumen de Protocolo 2026.
+Firmas autografas al margen. Sello en seco del Notario Publico.
+
+--- Despues (BD) ---
+notaria.Documento (tipo ACTA) + notaria.Acta
+ruta_archivo apunta a este archivo en repositorio digital

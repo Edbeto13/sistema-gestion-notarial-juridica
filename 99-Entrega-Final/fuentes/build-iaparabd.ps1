@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("all", "informe", "presentacion", "notaria")]
+    [ValidateSet("all", "informe", "presentacion", "notaria", "proyecto_final")]
     [string]$Mode = "all",
     [switch]$Clean
 )
@@ -9,8 +9,8 @@ $ErrorActionPreference = "Stop"
 $rootDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $buildDir = Join-Path $rootDir "build"
 $outputDir = Join-Path $rootDir "output"
-$assetsDir = Join-Path $rootDir "..\..\04-Actividad-Modelo-ER\assets\diagramas"
-$diagramasDir = Join-Path $rootDir "..\..\04-Actividad-Modelo-ER\diagramas"
+$assetsDir = Join-Path $rootDir "assets\diagramas"
+$diagramasDir = Join-Path $rootDir "diagramas"
 
 function Test-Tool {
     param(
@@ -79,12 +79,16 @@ function New-Derivatives {
     $reportTex = Join-Path $buildDir "informe.tex"
     $slidesTex = Join-Path $buildDir "presentacion.tex"
     $notariaTex = Join-Path $buildDir "notaria.tex"
+    $proyectoFinalTex = Join-Path $buildDir "proyecto_final.tex"
 
     Copy-Item (Join-Path $rootDir "informe.txt") $reportTex -Force
     Copy-Item (Join-Path $rootDir "presentacion.txt") $slidesTex -Force
 
     if (Test-Path (Join-Path $rootDir "notaria_informe.txt")) {
         Copy-Item (Join-Path $rootDir "notaria_informe.txt") $notariaTex -Force
+    }
+    if (Test-Path (Join-Path $rootDir "proyecto_final.txt")) {
+        Copy-Item (Join-Path $rootDir "proyecto_final.txt") $proyectoFinalTex -Force
     }
 
     $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
@@ -103,7 +107,9 @@ function New-Derivatives {
     $reportContent = $reportContent -replace '\*self-driving\*', '\textit{self-driving}'
     [System.IO.File]::WriteAllText($reportTex, $reportContent, $utf8NoBom)
 
-    Apply-FontFallback -TexFiles @($reportTex, $slidesTex, $notariaTex)
+    $fontTexFiles = @($reportTex, $slidesTex, $notariaTex)
+    if (Test-Path $proyectoFinalTex) { $fontTexFiles += $proyectoFinalTex }
+    Apply-FontFallback -TexFiles $fontTexFiles
 }
 
 function Build-One {
@@ -137,7 +143,7 @@ New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
 Test-Tool -Name "latexmk"
 Test-Tool -Name "lualatex"
 
-if ($Mode -eq "notaria" -or $Mode -eq "all") {
+if ($Mode -eq "notaria" -or $Mode -eq "all" -or $Mode -eq "proyecto_final") {
     Invoke-MermaidRender
 }
 
@@ -154,6 +160,9 @@ try {
         }
         "notaria" {
             Build-One -FileName "notaria.tex"
+        }
+        "proyecto_final" {
+            Build-One -FileName "proyecto_final.tex"
         }
         "all" {
             Build-One -FileName "informe.tex"
@@ -172,11 +181,12 @@ try {
     }
     if (Test-Path (Join-Path $buildDir "notaria.pdf")) {
         Copy-Item (Join-Path $buildDir "notaria.pdf") (Join-Path $outputDir "notaria.pdf") -Force
-        $cuadernoPdf = Join-Path $rootDir "..\cuaderno-completo.pdf"
-        Copy-Item (Join-Path $buildDir "notaria.pdf") $cuadernoPdf -Force
+    }
+    if (Test-Path (Join-Path $buildDir "proyecto_final.pdf")) {
+        Copy-Item (Join-Path $buildDir "proyecto_final.pdf") (Join-Path $outputDir "proyecto_final.pdf") -Force
     }
 
-    Write-Host "Done. Cuaderno PDF: 99-Entrega-Final/cuaderno-completo.pdf"
+    Write-Host "Done. Generated PDFs are in IAparaBD/output/."
 }
 finally {
     Pop-Location
